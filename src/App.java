@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -24,11 +26,22 @@ public class App {
         List<Map<String,String>> listaDeFilmes = parser.parse(body);
         System.out.println(listaDeFilmes.size());
 
-        // exibir e manipular os dados como a gente quiser.
+        // exibir e manipular os dados como a gente quiser:
+            //importar a classe geradora de figurinhas
+            var genarator = new StickerGenarator();
         for (Map<String,String> filme : listaDeFilmes) {
-            System.out.println(filme.get("title"));
-            System.out.println(filme.get("image"));
-            System.out.println(filme.get("imDbRating"));
+            
+
+            String title = filme.get("title");
+            String rating = filme.get("imDbRating");
+            // System.out.println(filme.get("image"));   // thumbnail
+            String[] maxSize = filme.get("image").split("@._V1_");
+            var newUrl = maxSize[0] + "@.png";
+            InputStream inputStream = new URL(newUrl).openStream();
+
+            genarator.creation(inputStream, title+".png", "Rating: "+rating+" ✨");
+
+            System.out.println(title);
             System.out.println();
             
         }

@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.InputStream;
+// import java.net.URL;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -7,10 +9,11 @@ import java.awt.Font;
 
 public class StickerGenarator {
 
-  public void creation() throws Exception {
+  public void creation(InputStream inputStream, String fileName, String imgText) throws Exception {
     
     // read image:
-    BufferedImage originalImage = ImageIO.read(new File("input\\movie.png"));
+    // InputStream inputStream = new URL("https://mapio.net/images-p/130166259.jpg").openStream();
+    BufferedImage originalImage = ImageIO.read(inputStream);
 
 
     // create new image:
@@ -30,15 +33,12 @@ public class StickerGenarator {
     graphics.setFont(font);
 
     // write something at the image
-    graphics.drawString("My Text here", 100, newHeight - 100);
+    graphics.drawString(imgText, 100, newHeight - 100);
 
     // write the image in a new file
-    ImageIO.write(newImage, "png", new File("output\\sticker.png"));
+    ImageIO.write(newImage, "png", new File("output/"+fileName));
   }
 
-  public static void main(String[] args) throws Exception{
-    var generator = new StickerGenarator();
-    generator.creation();
-  }
+
   
 }
